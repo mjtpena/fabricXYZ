@@ -124,14 +124,15 @@ class WorkspaceConfigManager:
         print(json.dumps(self.config, indent=2))
         print("="*60 + "\n")
     
-    def export_template(self, output_path: str):
+    @staticmethod
+    def get_template_structure() -> Dict[str, Any]:
         """
-        Export a configuration template
+        Get the standard configuration template structure
         
-        Args:
-            output_path: Path for template file
+        Returns:
+            Template dictionary
         """
-        template = {
+        return {
             "workspace_name": "your-workspace-name",
             "workspace_id": "your-workspace-id",
             "environment": "development",
@@ -152,6 +153,15 @@ class WorkspaceConfigManager:
                 "auto_refresh": True
             }
         }
+    
+    def export_template(self, output_path: str):
+        """
+        Export a configuration template
+        
+        Args:
+            output_path: Path for template file
+        """
+        template = self.get_template_structure()
         
         with open(output_path, 'w') as f:
             json.dump(template, f, indent=2)
@@ -160,27 +170,7 @@ class WorkspaceConfigManager:
 
 def create_config_template(output_path: str):
     """Create a configuration template file"""
-    template = {
-        "workspace_name": "your-workspace-name",
-        "workspace_id": "your-workspace-id",
-        "environment": "development",
-        "lakehouses": [
-            {
-                "name": "lakehouse1",
-                "id": "lakehouse-id"
-            }
-        ],
-        "data_sources": {
-            "source1": {
-                "type": "azure_storage",
-                "connection_string": "your-connection-string"
-            }
-        },
-        "settings": {
-            "retention_days": 30,
-            "auto_refresh": True
-        }
-    }
+    template = WorkspaceConfigManager.get_template_structure()
     
     with open(output_path, 'w') as f:
         json.dump(template, f, indent=2)
