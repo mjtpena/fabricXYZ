@@ -1,0 +1,40 @@
+{
+  "workspace": {
+    "name": "your-workspace-name",
+    "id": "your-workspace-id"
+  },
+  "lakehouse": {
+    "name": "starter_lakehouse",
+    "id": "your-lakehouse-id"
+  },
+  "data_sources": {
+    "sample_api": {
+      "type": "rest_api",
+      "url": "https://api.example.com/data",
+      "auth_type": "bearer"
+    },
+    "sample_storage": {
+      "type": "azure_storage",
+      "account_name": "your-storage-account",
+      "container": "raw-data"
+    }
+  },
+  "layers": {
+    "bronze": {
+      "path": "Tables/bronze",
+      "format": "delta"
+    },
+    "silver": {
+      "path": "Tables/silver",
+      "format": "delta"
+    },
+    "gold": {
+      "path": "Tables/gold",
+      "format": "delta"
+    }
+  },
+  "spark_config": {
+    "shuffle_partitions": "200",
+    "default_parallelism": "8"
+  }
+}
