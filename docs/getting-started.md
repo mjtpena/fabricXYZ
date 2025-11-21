@@ -33,7 +33,7 @@ Before using the resources in this repository, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/mjtpena/fabricXYZ.git
+git clone https://github.com/your-username/fabricXYZ.git
 cd fabricXYZ
 ```
 

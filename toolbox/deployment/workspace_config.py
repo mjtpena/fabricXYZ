@@ -160,8 +160,32 @@ class WorkspaceConfigManager:
 
 def create_config_template(output_path: str):
     """Create a configuration template file"""
-    manager = WorkspaceConfigManager.__new__(WorkspaceConfigManager)
-    manager.export_template(output_path)
+    template = {
+        "workspace_name": "your-workspace-name",
+        "workspace_id": "your-workspace-id",
+        "environment": "development",
+        "lakehouses": [
+            {
+                "name": "lakehouse1",
+                "id": "lakehouse-id"
+            }
+        ],
+        "data_sources": {
+            "source1": {
+                "type": "azure_storage",
+                "connection_string": "your-connection-string"
+            }
+        },
+        "settings": {
+            "retention_days": 30,
+            "auto_refresh": True
+        }
+    }
+    
+    with open(output_path, 'w') as f:
+        json.dump(template, f, indent=2)
+    
+    print(f"✓ Template exported to: {output_path}")
 
 def main():
     """Main entry point"""
