@@ -107,14 +107,19 @@ def get_notebook_parameters() -> Dict[str, Any]:
     """
     Get notebook parameters (for parameterized notebooks)
     
+    Note: This is a placeholder implementation. In Microsoft Fabric,
+    you would use notebookutils.notebook.getParameters() to retrieve
+    parameters passed to the notebook. Users should customize this
+    based on their environment.
+    
     Returns:
         Dictionary of parameters
     """
-    # In Fabric, you can access parameters using the taskUtils
-    # This is a placeholder implementation
     try:
-        # Example: from notebookutils import mssparkutils
+        # Placeholder: In Fabric, use:
+        # from notebookutils import mssparkutils
         # return mssparkutils.notebook.getParameters()
+        log_step("Using placeholder parameter retrieval", "WARNING")
         return {}
     except Exception as e:
         log_step(f"Could not retrieve parameters: {str(e)}", "WARNING")

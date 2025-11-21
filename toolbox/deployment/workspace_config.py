@@ -154,6 +154,21 @@ class WorkspaceConfigManager:
             }
         }
     
+    @staticmethod
+    def write_template_to_file(output_path: str):
+        """
+        Write a configuration template to a file
+        
+        Args:
+            output_path: Path for template file
+        """
+        template = WorkspaceConfigManager.get_template_structure()
+        
+        with open(output_path, 'w') as f:
+            json.dump(template, f, indent=2)
+        
+        print(f"✓ Template exported to: {output_path}")
+    
     def export_template(self, output_path: str):
         """
         Export a configuration template
@@ -161,21 +176,11 @@ class WorkspaceConfigManager:
         Args:
             output_path: Path for template file
         """
-        template = self.get_template_structure()
-        
-        with open(output_path, 'w') as f:
-            json.dump(template, f, indent=2)
-        
-        print(f"✓ Template exported to: {output_path}")
+        self.write_template_to_file(output_path)
 
 def create_config_template(output_path: str):
-    """Create a configuration template file"""
-    template = WorkspaceConfigManager.get_template_structure()
-    
-    with open(output_path, 'w') as f:
-        json.dump(template, f, indent=2)
-    
-    print(f"✓ Template exported to: {output_path}")
+    """Create a configuration template file (CLI wrapper)"""
+    WorkspaceConfigManager.write_template_to_file(output_path)
 
 def main():
     """Main entry point"""
