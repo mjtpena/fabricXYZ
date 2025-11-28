@@ -22,6 +22,11 @@ Example Usage:
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, when, regexp_replace, lit, concat, substring
 from typing import Dict, List
+import warnings
+
+# Constants for masking patterns
+LAST_N_DIGITS = 4  # Number of digits to show for masked credit cards, SSNs, etc.
+CREDIT_CARD_MASK = "*" * 12  # Mask prefix for credit cards
 
 def mask_email(df: DataFrame, column_name: str) -> DataFrame:
     """
@@ -83,12 +88,16 @@ def mask_credit_card(df: DataFrame, column_name: str) -> DataFrame:
     Example:
         4111111111111111 -> ************1111
     """
+    # Pattern to capture last N digits
+    pattern = r'.*(.{' + str(LAST_N_DIGITS) + r'})'
+    replacement = CREDIT_CARD_MASK + r'$1'
+    
     return df.withColumn(
         column_name,
         regexp_replace(
             col(column_name),
-            r'.*(....)',
-            r'************$1'
+            pattern,
+            replacement
         )
     )
 
@@ -173,7 +182,11 @@ def mask_multiple_columns(
         if mask_type in masking_functions:
             result_df = masking_functions[mask_type](result_df, column)
         else:
-            print(f"Warning: Unknown masking type '{mask_type}' for column '{column}'")
+            warnings.warn(
+                f"Unknown masking type '{mask_type}' for column '{column}'. "
+                f"Supported types: {list(masking_functions.keys())}",
+                UserWarning
+            )
     
     return result_df
 

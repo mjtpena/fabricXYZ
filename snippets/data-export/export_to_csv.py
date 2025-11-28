@@ -83,21 +83,32 @@ def export_single_csv(
     """
     Export DataFrame to a single CSV file
     
+    This function exports the DataFrame with coalesce=1 to create a single part file.
+    In Microsoft Fabric, you can then rename it using notebookutils:
+    
+        from notebookutils import mssparkutils
+        files = mssparkutils.fs.ls(temp_path)
+        part_file = [f for f in files if f.name.startswith('part-')][0]
+        mssparkutils.fs.mv(part_file.path, f"{output_path}/{filename}")
+    
     Args:
         df: Spark DataFrame to export
         output_path: Directory path for output
-        filename: Name of the output file
+        filename: Desired name of the output file (for reference)
         options: CSV writer options
+        
+    Returns:
+        Path to the temporary directory containing the part file
     """
-    import os
-    
-    # Export with coalesce=1
+    # Export with coalesce=1 to create single part file
     temp_path = f"{output_path}_temp"
     export_to_csv(df, temp_path, options, coalesce=1)
     
-    # Note: In Fabric, you may need to use notebookutils for file operations
     print(f"CSV exported to: {temp_path}")
-    print(f"Note: Rename the part file to {filename} using file utilities")
+    print(f"To rename to '{filename}', use notebookutils.fs.mv() in Fabric notebooks")
+    print("See function docstring for example code")
+    
+    return temp_path
 
 # Example usage
 if __name__ == "__main__":

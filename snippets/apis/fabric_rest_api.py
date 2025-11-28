@@ -158,18 +158,26 @@ def get_access_token_interactive() -> str:
     """
     Get access token using interactive authentication
     
-    Note: This is a placeholder. In production, use Azure Identity library
-    or notebookutils for authentication in Fabric.
+    Note: This is a placeholder. In production, use one of these methods:
+    
+    1. In Fabric notebooks (recommended):
+        from notebookutils import mssparkutils
+        token = mssparkutils.credentials.getToken("https://api.fabric.microsoft.com")
+    
+    2. Using Azure Identity (for local development):
+        from azure.identity import InteractiveBrowserCredential
+        credential = InteractiveBrowserCredential()
+        token = credential.get_token("https://api.fabric.microsoft.com/.default")
+    
+    See: https://learn.microsoft.com/en-us/fabric/data-engineering/notebook-utilities
     
     Returns:
         Access token string
     """
-    # In Fabric notebooks, you can use:
-    # from notebookutils import mssparkutils
-    # token = mssparkutils.credentials.getToken("https://api.fabric.microsoft.com")
-    
-    print("Note: Implement authentication using Azure Identity or notebookutils")
-    raise NotImplementedError("Implement authentication for your environment")
+    raise NotImplementedError(
+        "Implement authentication for your environment. "
+        "See function docstring for examples."
+    )
 
 # Example usage
 if __name__ == "__main__":

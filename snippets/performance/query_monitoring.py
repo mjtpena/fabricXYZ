@@ -179,10 +179,7 @@ def measure_io_performance(
         path = f"{output_path}_{fmt}"
         
         start = time.time()
-        if fmt == 'delta':
-            df.write.format("delta").mode("overwrite").save(path)
-        else:
-            df.write.format(fmt).mode("overwrite").save(path)
+        df.write.format(fmt).mode("overwrite").save(path)
         duration = time.time() - start
         
         results[fmt] = duration
